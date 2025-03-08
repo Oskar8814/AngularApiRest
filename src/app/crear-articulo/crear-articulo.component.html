@@ -1,10 +1,21 @@
-<div class="container">
-    <h3>Crear Nuevo Artículo</h3>
-    <form (ngSubmit)="crearArticulo()">
-        <label for="descripcion">Descripción:</label>
-        <input type="text" id="descripcion" [(ngModel)]="descripcion" name="descripcion" required>
-        <label for="precio">Precio:</label>
-        <input type="number" id="precio" [(ngModel)]="precio" name="precio" required>
-        <button type="submit">Crear Artículo</button>
+<div class="container mt-4">
+    <h3 class="mb-4">Crear Nuevo Artículo</h3>
+
+    <!-- Formulario para crear artículo -->
+    <form (ngSubmit)="crearArticulo()" class="row g-3">
+        <div class="col-md-6">
+            <label for="descripcion" class="form-label">Descripción</label>
+            <input type="text" id="descripcion" [(ngModel)]="descripcion" name="descripcion" class="form-control"
+                required>
+        </div>
+
+        <div class="col-md-6">
+            <label for="precio" class="form-label">Precio</label>
+            <input type="number" id="precio" [(ngModel)]="precio" name="precio" class="form-control" required>
+        </div>
+
+        <div class="col-12">
+            <button type="submit" class="btn btn-success mb-3">Crear Artículo</button>
+        </div>
     </form>
 </div>

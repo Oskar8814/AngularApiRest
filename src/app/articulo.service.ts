@@ -15,16 +15,18 @@ export class ArticuloService {
     return this.http.get<{ articulos: Iarticulo[] }>(this.apiUrl).pipe(
       map(response => response.articulos), // Extrae el array de artículos
       catchError(error => {
-        console.error('Error al crear artículo:', error);
+        console.error('Error al listar artículos:', error);
         return throwError(() => new Error(error.message || 'Error desconocido'));
       })
     )
   }
 
   obtenerArticulo(id: number): Observable<any> {
-    return this.http.get<Iarticulo>(`${this.apiUrl}/${id}`);
+    // console.log(id);
+    return this.http.get<any>(`${this.apiUrl}/${id}`).pipe(
+      map(response => response.articulo)
+    )
   }
-
 
   createArticulo(articulo: Iarticulo): Observable<any> {
     console.log('Datos enviados:', articulo);
@@ -45,13 +47,12 @@ export class ArticuloService {
     // Construir el objeto con clave "json" y valor como cadena JSON
     const body = new HttpParams().set('json', JSON.stringify(articulo));
     
-    console.log(body);
-
+    // console.log(body);
     // Enviar la solicitud con 'application/x-www-form-urlencoded'
     return this.http.put(`${this.apiUrl}/${id}`, body, { headers: new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded')});
   }
 
-  eliminarArticulo(id: number): Observable<any> {
+  deleteArticulo(id: number): Observable<any> {
     return this.http.delete<void>(`${this.apiUrl}/${id}`);
   }
 }

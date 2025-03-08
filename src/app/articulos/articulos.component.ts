@@ -15,38 +15,31 @@ export class ArticulosComponent implements OnInit {
   descripcion: string = '';
   precio: number = 0;
 
+  idBusqueda: number = 0;
+
   constructor(private articuloService: ArticuloService){}
 
   ngOnInit(): void {
     this.listarArticulos();
   }
 
+  //Metodo acc para actualizar articulos y cargar los articulos
   listarArticulos(): void {
     this.articuloService.listarArticulos().subscribe(data => this.articulos = data);
   }
 
-  seleccionarArticulo(articulo: Iarticulo): void {
-    this.articuloSeleccionado = { ...articulo };
-    this.descripcion = articulo.descripcion;
-    this.precio = articulo.precio;
+  // Función para buscar artículo por ID
+  buscarArticuloPorId(): void {
+    if (this.idBusqueda !== null && this.idBusqueda > 0) {
+      this.articuloService.obtenerArticulo(this.idBusqueda).subscribe(
+        (articulo) => {
+          // Actualiza el array articulos con solo el artículo encontrado
+          this.articulos = [articulo];
+          // console.log(this.articulos); 
+        }
+      );
+    } 
   }
-
-  // crearArticulo() {
-  //   Crear el objeto con la información del artículo
-  //   const articulo: Iarticulo = {
-  //     descripcion: this.descripcion,
-  //     precio: this.precio
-  //   };
-
-  //   this.articuloService.createArticulo(articulo).subscribe(
-  //     (response) => {
-  //       console.log('Artículo creado:', response);
-  //     },
-  //     (error) => {
-  //       console.error('Error al crear el artículo', error);
-  //     }
-  //   );
-  // }
 
   actualizarArticulo(): void {
     if (this.articuloSeleccionado) {
@@ -64,6 +57,13 @@ export class ArticulosComponent implements OnInit {
   }
   
   eliminarArticulo(id: number): void {
-    this.articuloService.eliminarArticulo(id).subscribe(() => this.listarArticulos());
+    this.articuloService.deleteArticulo(id).subscribe(() => this.listarArticulos());
+  }
+
+  //Metodo acc para editar
+  seleccionarArticulo(articulo: Iarticulo): void {
+    this.articuloSeleccionado = { ...articulo };
+    this.descripcion = articulo.descripcion;
+    this.precio = articulo.precio;
   }
 }
