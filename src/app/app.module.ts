@@ -6,11 +6,14 @@ import { AppComponent } from './app.component';
 
 import { FormsModule } from '@angular/forms';
 import { provideHttpClient } from '@angular/common/http';
+import { ArticulosComponent } from './articulos/articulos.component';
+import { CrearArticuloComponent } from './crear-articulo/crear-articulo.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-
+    ArticulosComponent,
+    CrearArticuloComponent,
   ],
   imports: [
     BrowserModule,

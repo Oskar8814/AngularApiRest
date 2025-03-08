@@ -1,6 +1,6 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { catchError, map, Observable, throwError } from 'rxjs';
 import { Iarticulo } from './iarticulo';
 
 @Injectable({
@@ -12,15 +12,33 @@ export class ArticuloService {
   constructor(private http: HttpClient) { }
 
   listarArticulos(): Observable<any[]> {
-    return this.http.get<Iarticulo[]>(this.apiUrl);
+    return this.http.get<{ articulos: Iarticulo[] }>(this.apiUrl).pipe(
+      map(response => response.articulos), // Extrae el array de artículos
+      catchError(error => {
+        console.error('Error al crear artículo:', error);
+        return throwError(() => new Error(error.message || 'Error desconocido'));
+      })
+    )
   }
 
   obtenerArticulo(id: number): Observable<any> {
     return this.http.get<Iarticulo>(`${this.apiUrl}/${id}`);
   }
 
-  crearArticulo(articulo: Iarticulo): Observable<any> {
-    return this.http.post<Iarticulo>(this.apiUrl, articulo);
+
+  createArticulo(articulo: Iarticulo): Observable<any> {
+    console.log('Datos enviados:', articulo);
+    
+    // Verificamos que no haya campos vacíos
+    if (!articulo.descripcion || !articulo.precio) {
+      throw new Error('Descripción o precio no pueden estar vacíos');
+    }
+
+    // Construir el objeto con clave "json" y valor como cadena JSON
+    const body = new HttpParams().set('json', JSON.stringify(articulo));
+
+    // Enviar la solicitud con 'application/x-www-form-urlencoded'
+    return this.http.post(this.apiUrl, body, { headers: new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded')});
   }
 
   actualizarArticulo(id: number, articulo: Iarticulo): Observable<any> {
