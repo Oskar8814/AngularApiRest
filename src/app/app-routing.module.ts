@@ -1,9 +1,11 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { ArticulosComponent } from './articulos/articulos.component';
+import { CrearArticuloComponent } from './crear-articulo/crear-articulo.component';
 
 const routes: Routes = [
   { path: 'articulos', component: ArticulosComponent },
+  { path: 'creararticulo', component: CrearArticuloComponent },
   { path: '**', redirectTo: 'articulos' }
 ];
 

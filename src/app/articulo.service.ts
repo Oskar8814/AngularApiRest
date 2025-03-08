@@ -41,8 +41,14 @@ export class ArticuloService {
     return this.http.post(this.apiUrl, body, { headers: new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded')});
   }
 
-  actualizarArticulo(id: number, articulo: Iarticulo): Observable<any> {
-    return this.http.put<Iarticulo>(`${this.apiUrl}/${id}`, articulo);
+  updateArticulo(id: number, articulo: Iarticulo): Observable<any> {
+    // Construir el objeto con clave "json" y valor como cadena JSON
+    const body = new HttpParams().set('json', JSON.stringify(articulo));
+    
+    console.log(body);
+
+    // Enviar la solicitud con 'application/x-www-form-urlencoded'
+    return this.http.put(`${this.apiUrl}/${id}`, body, { headers: new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded')});
   }
 
   eliminarArticulo(id: number): Observable<any> {

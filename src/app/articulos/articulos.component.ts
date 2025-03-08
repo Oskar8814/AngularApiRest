@@ -27,30 +27,38 @@ export class ArticulosComponent implements OnInit {
 
   seleccionarArticulo(articulo: Iarticulo): void {
     this.articuloSeleccionado = { ...articulo };
+    this.descripcion = articulo.descripcion;
+    this.precio = articulo.precio;
   }
 
-  crearArticulo() {
-    // Crear el objeto con la información del artículo
-    const articulo: Iarticulo = {
-      descripcion: this.descripcion,
-      precio: this.precio
-    };
+  // crearArticulo() {
+  //   Crear el objeto con la información del artículo
+  //   const articulo: Iarticulo = {
+  //     descripcion: this.descripcion,
+  //     precio: this.precio
+  //   };
 
-    this.articuloService.createArticulo(articulo).subscribe(
-      (response) => {
-        console.log('Artículo creado:', response);
-      },
-      (error) => {
-        console.error('Error al crear el artículo', error);
-      }
-    );
-  }
+  //   this.articuloService.createArticulo(articulo).subscribe(
+  //     (response) => {
+  //       console.log('Artículo creado:', response);
+  //     },
+  //     (error) => {
+  //       console.error('Error al crear el artículo', error);
+  //     }
+  //   );
+  // }
 
   actualizarArticulo(): void {
     if (this.articuloSeleccionado) {
-      this.articuloService.actualizarArticulo(this.articuloSeleccionado.id, this.articuloSeleccionado).subscribe(() => {
+
+      const articuloActualizado: Iarticulo = {
+        descripcion: this.descripcion,
+        precio: this.precio
+      };
+
+      this.articuloService.updateArticulo(this.articuloSeleccionado.id, articuloActualizado).subscribe(() => {
         this.listarArticulos();
-        this.articuloSeleccionado = null;
+        this.articuloSeleccionado = null; // Limpiar la selección
       });
     }
   }
