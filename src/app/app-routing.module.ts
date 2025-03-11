@@ -4,6 +4,7 @@ import { ArticulosComponent } from './articulos/articulos.component';
 import { CrearArticuloComponent } from './crear-articulo/crear-articulo.component';
 
 const routes: Routes = [
+  { path: '', component: ArticulosComponent },
   { path: 'articulos', component: ArticulosComponent },
   { path: 'creararticulo', component: CrearArticuloComponent },
   { path: '**', redirectTo: 'articulos' }
